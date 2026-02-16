@@ -1,155 +1,157 @@
-DEPRECATED!!! DEVELOPMENT DOESN'T CONTINUE ANYMORE. NOBODY KNOWS IF IT WORKS WITH LATEST WHMCS VERSION. SORRY ABOUT THAT.
-======================================================================
+# Moneo SMS - WHMCS SMS Notification Module
 
+An open-source, feature-rich SMS notification addon for WHMCS. Automatically send SMS messages to clients and administrators based on WHMCS events such as order acceptance, invoice creation, ticket updates, and more.
 
-ENGLISH
-=======
+## Requirements
 
-WHMCS Sms Module
----------------
+- **WHMCS** 8.0 or later
+- **PHP** 8.1 or later (8.2 recommended)
+- **PHP Extensions**: cURL, JSON, SimpleXML
+- An active account with one of the supported SMS gateways
 
-Open Source SMS Module for WHMCS Automation.
+## Features
 
-Installation
----------------
+- **27+ automated hooks** covering all major WHMCS events
+- **14 SMS gateway providers** supported out of the box
+- **Client and Admin notifications** with separate template management
+- **Template variables** for personalized messages
+- **Bulk SMS sending** to all opted-in clients
+- **Message history** with delivery status tracking
+- **Multi-language** admin interface (English, Turkish, Russian)
+- **Credit balance** display (where supported by provider)
 
-* Upload files to your WHMCS root.
-* Go to Admin Area. Enter Menu->Setup->Addon Modules and Activate Aktuel Sms
-* After saving changes, give privigle to admin groups that you want at same page.
-* Go to Menu->Setup->Custom Client Fields
-* Add a field: name=Send Sms, type= Tick box, Show on Order Form=check. (This field will be shown at register page. If user do not check this field, SMS will not send to this user)
-* Add a field: name=GSM Number, type=Text Box, Show on Order Form=check. (This field will be shown at register page. Sms will send to this value that user fills.)
+## Installation
 
-* Enter Menu->Addons->Aktuel Sms
-* Write WHMCS Path and Select SMS Gateway. Write your api details.
+1. Upload the `modules/` folder to your WHMCS root directory.
+2. Go to **Admin Area** > **Setup** > **Addon Modules**.
+3. Find **Moneo SMS** and click **Activate**.
+4. Grant access to the admin groups that should manage the module.
 
+### Configure Custom Client Fields
 
-Supported SMS Gateways
----------------
+5. Go to **Setup** > **Custom Client Fields**.
+6. Add a **Tick Box** field:
+   - **Name**: `Subscribe to SMS`
+   - **Show on Order Form**: Checked
+   - This allows clients to opt-in to SMS notifications during registration.
+7. Add a **Text Box** field:
+   - **Name**: `GSM Number`
+   - **Show on Order Form**: Checked
+   - Clients will enter their mobile number here.
 
-* ClickAtell (Global)
-* NetGsm (Turkey)
-* UcuzSmsAl (Turkey)
-* Mutlucell (Turkey)
-* Dakik SMS (Turkey)
-* msg91.com (India)
-* bytehand.com (Global, Russian)
-* 1sms.com.tr (Türkiye)
-* smsGateway.me (Global -> use your own android device to send SMS via API call)
-* SendSms.ro (Romania, Global)
+### Configure the Module
 
-Supported Hooks
----------------
+8. Go to **Addons** > **Moneo SMS**.
+9. In the **Settings** tab:
+   - Select your SMS Gateway provider.
+   - Enter your API credentials.
+   - Set the Sender ID and Signature.
+   - Map the custom fields you created above.
+10. In the **Client Templates** and **Admin Templates** tabs, customize your message templates.
 
-* ClientChangePassword: Send sms to user if changes account password
-* TicketAdminReply: Send sms to user if admin replies user's ticket
-* ClientAdd: Send sms when user register
-* AfterRegistrarRegistration: Send sms to user when domain registred succesfully
-* AfterRegistrarRenewal: Send sms to user when domain renewed succesfully
-* AfterModuleCreate_SharedAccount: Send sms to user when hosting account created.
-* AfterModuleCreate_ResellerAccount: Send sms to user when reseller account created.
-* AcceptOrder: Send sms to user when order accepted manually or automatically.
-* DomainRenewalNotice: Remaining to the end of {x} days prior to the domain's end time, user will be get a message.
-* InvoicePaymentReminder: If there is a payment that not paid, user will be get a information message.
-* InvoicePaymentReminder_FirstOverdue: Invoice payment first for seconds overdue.
-* InvoicePaymentReminder_secondoverdue: Invoice payment second for seconds overdue.
-* InvoicePaymentReminder_thirdoverdue: Invoice payment third for seconds overdue.
-* AfterModuleSuspend: Send sms after hosting account suspended. 
-* AfterModuleUnsuspend: Send sms after hosting account unsuspended.
-* InvoiceCreated: Send sms every invoice creation. 
-* AfterModuleChangePassword: After module change password.
-* InvoicePaid: Whenyou have paidthe billsends a message.
+## Supported SMS Gateways
 
-Contribute Plugin
----------------
+| Provider | Region | Website |
+|----------|--------|---------|
+| ClickAtell | Global | [clickatell.com](https://www.clickatell.com) |
+| NetGsm | Turkey | [netgsm.com.tr](https://www.netgsm.com.tr) |
+| Ucuz Sms Al | Turkey | [ucuzsmsal.com](https://www.ucuzsmsal.com) |
+| MutluCell | Turkey | [mutlucell.com](https://www.mutlucell.com) |
+| Dakik SMS | Turkey | [dakiksms.com](https://www.dakiksms.com) |
+| BirSMS | Turkey | [1sms.com.tr](https://www.1sms.com.tr) |
+| HemenPosta | Turkey | - |
+| msg91.com | India | [msg91.com](https://msg91.com) |
+| ByteHand | Global / Russia | [bytehand.com](https://bytehand.com) |
+| SMS Gateway | Global (Android) | [smsgateway.me](https://smsgateway.me) |
+| SendSms.ro | Romania / Global | [sendsms.ro](https://www.sendsms.ro) |
+| Route SMS | Global | - |
+| OneTouchSMS | Global | - |
 
-You are free (as freedom) to add new hooks, functions, issues, gateways etc. Just fork plugin, change what do you want and send pull request.
+## Supported Hooks
 
-Contributors
-----------
+### Client Notifications
 
-* [Guven Atbakan](http://github.com/shibby)
-* [Turgay Coşkun](http://github.com/adalim61)
-* [Hakan Ersu](https://github.com/hakanersu)
+| Hook | Description |
+|------|-------------|
+| `ClientAdd` | Welcome SMS after client registration |
+| `ClientChangePassword` | Notification when client changes password |
+| `AcceptOrder` | Notification when order is accepted |
+| `AfterRegistrarRegistration` | Domain registered successfully |
+| `AfterRegistrarRegistrationFailed` | Domain registration failed |
+| `AfterRegistrarRenewal` | Domain renewed successfully |
+| `AfterModuleCreate` | Hosting account created (with credentials) |
+| `AfterModuleSuspend` | Service suspended notification |
+| `AfterModuleUnsuspend` | Service reactivated notification |
+| `AfterModuleChangePassword` | Hosting password changed |
+| `AfterModuleChangePackage` | Service package changed |
+| `InvoiceCreated` | New invoice created |
+| `InvoicePaid` | Invoice payment received |
+| `InvoicePaymentReminder` | Payment reminder |
+| `InvoicePaymentReminder` (1st overdue) | First overdue notice |
+| `InvoicePaymentReminder` (2nd overdue) | Second overdue notice |
+| `InvoicePaymentReminder` (3rd overdue) | Third overdue notice |
+| `DomainRenewalNotice` | Domain expiry reminder ({x} days before) |
+| `TicketAdminReply` | Admin replied to support ticket |
+| `TicketClose` | Support ticket closed |
 
+### Admin Notifications
 
-TURKISH
-=======
+| Hook | Description |
+|------|-------------|
+| `AdminLogin` | Admin panel login alert |
+| `ClientLogin` | Client login notification |
+| `ClientAdd` | New client registration alert |
+| `TicketOpen` | New ticket opened |
+| `TicketUserReply` | Client replied to ticket |
+| `AfterRegistrarRegistration` | Domain registered |
+| `AfterRegistrarRenewal` | Domain renewed |
+| `AfterRegistrarRegistrationFailed` | Domain registration failed |
+| `AfterRegistrarRenewalFailed` | Domain renewal failed |
 
-WHMCS Sms Eklentisi
----------------
+## Upgrading from v1.x
 
-WHMCS için açık kaynak kodlu, SMS gönderme eklentisidir. Eklenti ücretsizdir.
+Version 2.0.0 is a complete rewrite for WHMCS 8.x compatibility:
 
-Kurulum
----------------
+- All deprecated `mysql_*` functions replaced with WHMCS Capsule DBAL
+- PHP 8.1+ type hints and modern syntax
+- SQL injection vulnerabilities fixed with parameterized queries
+- CSRF protection on all forms
+- Modernized Bootstrap admin UI
+- InnoDB engine with utf8mb4 charset support
 
-* Dosyaları WHMCS klasörünüze yükleyin.
-* Admin sayfasına gidin. Menu->Setup->Addon Modules (Menü->Ayarlar->Ek Modüller) sayfasına gidin ve Aktuel Sms eklentisini aktifleştirin.
-* Kaydettikten sonra, aynı sayfada admin gruplarına yetki vermeyi unutmayın.
-* Menu->Setup->Custom Client Fields (Menü->Ayarlar->Müşteri Alanları) sayfasına gidin.
-* Yeni Bir Alan Ekleyin: name=Mesaj almak istiyor musunuz?, type= Tick box, Show on Order Form=check. (Bu alan, müşteriye kayıt sayfasında gösterilecek. Müşteri bu alanı işaretlemezse, sms gönderilmeyecek)
-* Yeni bir alan ekleyin: name=GSM Numarası, type=Text Box, Show on Order Form=check. (Bu alan, müşteriye kayıt sayfasında gösterilecek. Sms, müşterinin buraya girdiği değere gönderilecek)
+**Upgrade steps:**
 
-* Menu->Addons->Aktuel Sms (Menü->Eklentiler->Aktuel Sms) Eklentinin sayfasına gidin.
-* WHMCS yolunuzu yazın ve SMS göndermek için gönderici seçin. Daha sonra api detaylarınızı yazın.
+1. Back up your existing module files and database.
+2. Upload the new files to your WHMCS installation, overwriting the old ones.
+3. Go to **Setup** > **Addon Modules** and the upgrade will run automatically.
+4. Verify your settings and templates are intact.
 
+## Adding a New SMS Provider
 
-Desteklenen SMS Firmaları
-----------------------
+1. Create a new file in `modules/addons/moneo_sms/senders/` (e.g., `myprovider.php`).
+2. Create a class that extends `MoneoSms` and implements `SmsSenderInterface`.
+3. Implement `send()`, `balance()`, `report()`, `utilgsmnumber()`, and `utilmessage()`.
+4. Return the provider configuration array at the end of the file:
 
-* ClickAtell (Global)
-* NetGsm (Türkiye)
-* UcuzSmsAl (Türkiye)
-* Mutlucell (Türkiye)
-* Dakik SMS (Türkiye)
-* msg91.com (Hindistan)
-* bytehand.com (Global, Russian)
-* 1sms.com.tr (Türkiye)
-* smsGateway.me (Global -> use your own android device to send SMS via API call)
-* SendSms.ro (Romania, Global)
+```php
+return [
+    'value'  => 'myprovider',
+    'label'  => 'My Provider',
+    'fields' => ['user', 'pass'],
+];
+```
 
+## Contributing
 
-Desteklenen Hook'lar
----------------
+Contributions are welcome! You are free to add new hooks, gateways, features, or bug fixes. Fork the repository, make your changes, and submit a pull request.
 
-* ClientChangePassword: Müşterinin şifresi değiştiğinde sms gönderilir.
-* TicketAdminReply: Admin, müşterinin destek talebini yanıtladığında, müşteriye sms gönderilir.
-* ClientAdd: Müşteri kayıt olduğunda, hoşgeldiniz mesajı gönderilir.
-* AfterRegistrarRegistration: Domain başarıyla kayıt olduğunda, müşteriye bilgi mesajı gönderilir.
-* AfterRegistrarRenewal: Domain başarıyla yenilendiğinde, müşteriye bilgi mesajı gönderilir.
-* AfterModuleCreate_SharedAccount: Hosting hesabı oluşturulduğunda müşteriye kullanıcı adı ve şifrelerle birlikte bilgi mesajı gönderilir.
-* AfterModuleCreate_ResellerAccount: Reseller hesabı oluşturulduğunda müşteriye kullanıcı adı ve şifrelerle birlikte bilgi mesajı gönderilir.
-* AcceptOrder: Müşterinin siparişi onaylandığında, müşteriye bilgi mesajı gönderilir.
-* DomainRenewalNotice: Domainin süresinin dolmasına {x} gün kala müşteriye bilgilendirme mesajı gönderilir. {x: Eklentide belirleyebilisiniz.)
-* InvoicePaymentReminder: Eğer ödenmemiş bir fatura varsa müşteriye bilgi mesajı gönderilir.
-* InvoicePaymentReminder_FirstOverdue: Eğer fatura ödemesinin günü geçtiyse müşteriye bilgi mesajı gönderilir.
-* InvoicePaymentReminder_secondoverdue: Ödenmemiş faturanın ikinci zaman aşımında mesaj gönderir.
-* InvoicePaymentReminder_thirdoverdue: Ödenmemiş faturanın üçüncü zaman aşımında mesaj gönderir.
-* AfterModuleSuspend: Hosting hesabı suspend edilirse bilgi mesajı gönderilir. 
-* AfterModuleUnsuspend: Hosting hesabı unsuspend edilirse bilgi mesajı gönderilir. 
-* InvoiceCreated: Sistem yeni fatura oluşturursa bilgi mesajı gönderilir. 
-* AfterModuleChangePassword: Hosting hesabı şifresi değiştiğinde gönderir.
-* InvoicePaid: Faturanız ödendiğinde mesaj gönderir.
+## Contributors
 
-Katkıda bulun
----------------
+- [Güven Atbakan](https://github.com/shibby)
+- [Emir Karşıyakalı](https://github.com/emir)
+- [Turgay Çoşkun](https://github.com/adalim61)
+- [Hakan Ersu](https://github.com/hakanersu)
 
-Yeni hook, fonksiyon, sms gönderici ve diğer bütün herşeyde özgürsünüz. Eklentiyi çoğaltın (fork) ve yaptığınız değişiklikler için Pull Request gönderin.
+## License
 
-Katkıda bulunanlar
-----------
-
-* [Güven Atbakan](http://github.com/shibby)
-* [Turgay Coşkun](http://github.com/adalim61)
-* [Hakan Ersu](https://github.com/hakanersu)
-
-Bazı Ekran Görüntüleri
---------------
-
-[![General Settings](http://i.imgur.com/ai5e1hos.png)](http://i.imgur.com/ai5e1ho.png)
-[![Sms Templates](http://i.imgur.com/PUksoY9s.png)](http://i.imgur.com/PUksoY9.png)
-[![Send Manual Sms](http://i.imgur.com/EJNwpwIs.png)](http://i.imgur.com/EJNwpwI.png)
-
-
-
+This project is licensed under the [MIT License](LICENSE.md).
